@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
+  const MyHomePage({super.key});
 
   final String npm = "2506596331";
   final String nama = "Sayyid Aqil Kusuma";
   final String kelas = "PBP C";
 
-  final List<ItemHomepage> items = [
-    ItemHomepage("Lihat Pengalaman", Icons.folder),
-    ItemHomepage("Tambah Pengalaman", Icons.add_circle),
-    ItemHomepage("Logout", Icons.logout),
-  ];
-
-    @override
+  @override
   Widget build(BuildContext context) {
+    final List<ItemHomepage> items = [
+      ItemHomepage("Lihat Pengalaman", Icons.folder, Colors.grey),
+      ItemHomepage("Tambah Pengalaman", Icons.add_circle, Colors.green),
+      ItemHomepage("Edit Pengalaman", Icons.edit, Theme.of(context).colorScheme.secondary),
+      ItemHomepage("Hapus Pengalaman", Icons.delete_forever, Colors.red),
+      ItemHomepage("Lihat Skill", Icons.folder, Colors.grey),
+      ItemHomepage("Tambah Skill", Icons.add_circle, Colors.green),
+      ItemHomepage("Edit Skill", Icons.edit, Theme.of(context).colorScheme.secondary),
+      ItemHomepage("Hapus Skill", Icons.delete_forever, Colors.red),
+      ItemHomepage("Logout", Icons.logout, Colors.black),
+    ];
     // Scaffold menyediakan struktur visual dasar halaman (AppBar, Body, SnackBar).
     return Scaffold(
       // AppBar menampilkan bar bagian atas halaman aplikasi.
@@ -28,57 +33,54 @@ class MyHomePage extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      // Body halaman utama dengan padding di sekelilingnya.
-      body: Padding(
+      // Body halaman utama yang dapat di-scroll dengan padding di sekelilingnya.
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Baris horizontal untuk menampilkan 3 InfoCard secara sejajar.
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          // Baris horizontal untuk menampilkan 3 InfoCard secara sejajar.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InfoCard(title: 'NPM', content: npm),
+              InfoCard(title: 'Name', content: nama),
+              InfoCard(title: 'Class', content: kelas),
+            ],
+          ),
+
+          const SizedBox(height: 16.0),
+
+          // Bagian tengah: pesan sambutan dan kisi tombol menu portofolio.
+          Center(
+            child: Column(
               children: [
-                InfoCard(title: 'NPM', content: npm),
-                InfoCard(title: 'Name', content: nama),
-                InfoCard(title: 'Class', content: kelas),
-              ],
-            ),
-
-            const SizedBox(height: 16.0),
-
-            // Bagian tengah: pesan sambutan dan kisi tombol menu portofolio.
-            Center(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      'Selamat datang di MyPortfolio Mobile!',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    'Selamat datang di MyPortfolio Mobile!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
                     ),
                   ),
+                ),
 
-                  // GridView menampilkan kartu tombol dalam tata letak kisi 3 kolom.
-                  GridView.count(
-                    primary: true,
-                    padding: const EdgeInsets.all(20),
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 3,
-                    // shrinkWrap agar ukuran kisi menyesuaikan tinggi konten anak.
-                    shrinkWrap: true,
-                    children: items.map((ItemHomepage item) {
-                      return ItemCard(item);
-                    }).toList(),
-                  ),
-                ],
-              ),
+                // GridView menampilkan kartu tombol dalam tata letak kisi 3 kolom.
+                GridView.count(
+                  primary: true,
+                  padding: const EdgeInsets.all(20),
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 4,
+                  // shrinkWrap agar ukuran kisi menyesuaikan tinggi konten anak.
+                  shrinkWrap: true,
+                  children: items.map((ItemHomepage item) {
+                    return ItemCard(item);
+                  }).toList(),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -119,8 +121,9 @@ class InfoCard extends StatelessWidget {
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon, this.color);
 }
 
 class ItemCard extends StatelessWidget {
@@ -132,7 +135,7 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       // Menggunakan warna sekunder dari skema tema aplikasi.
-      color: Theme.of(context).colorScheme.secondary,
+      color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         // Aksi ketika kartu ditekan oleh pengguna.
