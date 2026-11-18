@@ -15,7 +15,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   String _description = "";
   String _category = "Full-Time"; // default
   String _thumbnail = "";
-  DateTime _endedAt = DateTime.now();
+  DateTime? _endedAt = null;
 
   final List<String> _categories = [
     'Internship',
@@ -144,7 +144,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InputDatePickerFormField(
-                  fieldHintText: "DD/MM/YYYY",
+                  fieldHintText: "MM/DD/YYYY",
                   fieldLabelText: "Waktu Selesai",
                   firstDate: DateTime.utc(2000, 1, 1),
                   lastDate: DateTime.now(),
@@ -192,6 +192,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                                   onPressed: () {
                                     Navigator.pop(context);
                                     _formKey.currentState!.reset();
+                                    _endedAt = null;
                                   },
                                 ),
                               ],
