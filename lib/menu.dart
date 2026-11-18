@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:myportofolio_mobile/experience_form.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -11,15 +12,15 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ItemHomepage> items = [
-      ItemHomepage("Lihat Pengalaman", Icons.folder, Colors.grey),
-      ItemHomepage("Tambah Pengalaman", Icons.add_circle, Colors.green),
-      ItemHomepage("Edit Pengalaman", Icons.edit, Theme.of(context).colorScheme.secondary),
-      ItemHomepage("Hapus Pengalaman", Icons.delete_forever, Colors.red),
-      ItemHomepage("Lihat Skill", Icons.folder, Colors.grey),
-      ItemHomepage("Tambah Skill", Icons.add_circle, Colors.green),
-      ItemHomepage("Edit Skill", Icons.edit, Theme.of(context).colorScheme.secondary),
-      ItemHomepage("Hapus Skill", Icons.delete_forever, Colors.red),
-      ItemHomepage("Logout", Icons.logout, Colors.black),
+      ItemHomepage("Lihat Pengalaman", Icons.folder, Colors.grey, null),
+      ItemHomepage("Tambah Pengalaman", Icons.add_circle, Colors.green, (context) => ExperienceFormPage()),
+      ItemHomepage("Edit Pengalaman", Icons.edit, Theme.of(context).colorScheme.secondary, null),
+      ItemHomepage("Hapus Pengalaman", Icons.delete_forever, Colors.red, null),
+      ItemHomepage("Lihat Skill", Icons.folder, Colors.grey, null),
+      ItemHomepage("Tambah Skill", Icons.add_circle, Colors.green, null),
+      ItemHomepage("Edit Skill", Icons.edit, Theme.of(context).colorScheme.secondary, null),
+      ItemHomepage("Hapus Skill", Icons.delete_forever, Colors.red, null),
+      ItemHomepage("Logout", Icons.logout, Colors.black, null),
     ];
     // Scaffold menyediakan struktur visual dasar halaman (AppBar, Body, SnackBar).
     return Scaffold(
@@ -124,8 +125,9 @@ class ItemHomepage {
   final String name;
   final IconData icon;
   final Color color;
+  final WidgetBuilder? page;
 
-  ItemHomepage(this.name, this.icon, this.color);
+  ItemHomepage(this.name, this.icon, this.color, this.page);
 }
 
 class ItemCard extends StatelessWidget {
@@ -148,6 +150,16 @@ class ItemCard extends StatelessWidget {
             ..showSnackBar(
               SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
             );
+
+            // Navigate ke halaman yang sesuai
+            if (item.page != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: item.page!
+                ),
+              );
+            }
         },
         child: Container(
           padding: const EdgeInsets.all(8),
