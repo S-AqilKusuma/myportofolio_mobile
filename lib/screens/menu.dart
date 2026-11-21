@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
+import 'package:myportofolio_mobile/screens/skill_form.dart';
 import 'package:myportofolio_mobile/widgets/experience_card.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 
@@ -18,7 +19,7 @@ class MyHomePage extends StatelessWidget {
       ItemHomepage("Edit Pengalaman", Icons.edit, Theme.of(context).colorScheme.secondary, null),
       ItemHomepage("Hapus Pengalaman", Icons.delete_forever, Colors.red, null),
       ItemHomepage("Lihat Skill", Icons.folder, Colors.grey, null),
-      ItemHomepage("Tambah Skill", Icons.add_circle, Colors.green, null),
+      ItemHomepage("Tambah Skill", Icons.add_circle, Colors.green, (context) => SkillFormPage()),
       ItemHomepage("Edit Skill", Icons.edit, Theme.of(context).colorScheme.secondary, null),
       ItemHomepage("Hapus Skill", Icons.delete_forever, Colors.red, null),
       ItemHomepage("Logout", Icons.logout, Colors.black, null),
