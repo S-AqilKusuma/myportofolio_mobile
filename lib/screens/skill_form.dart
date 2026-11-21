@@ -169,7 +169,7 @@ class _SkillFormPageState extends State<SkillFormPage> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Pengalaman berhasil ditambahkan!'),
+                              title: const Text('Skill berhasil ditambahkan!'),
                               content: SingleChildScrollView(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
