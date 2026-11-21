@@ -15,7 +15,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   String _description = "";
   String _category = "Full-Time"; // default
   String _thumbnail = "";
-  DateTime? _endedAt = null;
+  DateTime? _endedAt;
 
   final List<String> _categories = [
     'Internship',
