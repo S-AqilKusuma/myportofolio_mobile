@@ -17,8 +17,10 @@ class _SkillFormPageState extends State<SkillFormPage> {
   String _description = "";
   File? _image;
   Uri? _imageSource;
+  ImagePickerWidget? _picker;
 
   ImagePickerWidget getPicker() => ImagePickerWidget(
+    key: UniqueKey(),
     diameter: 180,
     shape: ImagePickerWidgetShape.square,
     isEditable: true,
@@ -104,7 +106,7 @@ class _SkillFormPageState extends State<SkillFormPage> {
               // === Image ===
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: getPicker(),
+                child: _picker,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -115,6 +117,7 @@ class _SkillFormPageState extends State<SkillFormPage> {
                   onPressed: () {
                     setState(() {
                       _image = null;
+                      _picker = getPicker();
                     });
                   },
                   child: const Text(
