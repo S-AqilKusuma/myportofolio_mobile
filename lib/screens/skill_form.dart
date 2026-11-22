@@ -35,6 +35,8 @@ class _SkillFormPageState extends State<SkillFormPage> {
   
   @override
   Widget build(BuildContext context) {
+    _picker = getPicker();
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -192,6 +194,7 @@ class _SkillFormPageState extends State<SkillFormPage> {
                                     _formKey.currentState!.reset();
                                     setState(() {
                                       _image = null;
+                                      _picker = getPicker();
                                     });
                                   },
                                 ),
