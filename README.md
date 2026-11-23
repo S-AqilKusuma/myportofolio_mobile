@@ -80,7 +80,7 @@ Saya tidak menggunakan AI dalam mengerjakan tugas ini. Saya mengikuti langkah-la
 
 ### AI USAGE
 
-Saya tidak menggunakan AI dalam mengerjakan tugas ini. Saya mengikuti langkah-langkah yang ada di tutorial, membaca dokumentasi Flutter dan API Flutter, mencari referensi dari StackOverflow, dan menggunakan *ImagePicker* dan *ImagePickerWidget* yang ada di PubDev.
+Saya tidak menggunakan AI dalam mengerjakan tugas ini. Saya mengikuti langkah-langkah yang ada di tutorial, membaca dokumentasi Flutter dan API Flutter, mencari referensi dari StackOverflow dan GeeksForGeeks, dan menggunakan *ImagePicker* dan *ImagePickerWidget* yang ada di PubDev.
 
 
 
@@ -113,3 +113,7 @@ StackOverflow:
 -   Image.file is not supported on Flutter Web. How to get image from gallery/camera for the Flutter Web?: https://stackoverflow.com/questions/73402464/image-file-is-not-supported-on-flutter-web-how-to-get-image-from-gallery-camera
 -   Is there any way to generate the same key for the "same" widget in Flutter without having any values to be based on: https://stackoverflow.com/questions/74371559/is-there-any-way-to-generate-the-same-key-for-the-same-widget-in-flutter-witho
 -   How to remove a widget from tree: https://stackoverflow.com/questions/43778489/how-to-remove-a-widget-from-tree
+
+
+GeeksForGeeks:
+-   Dart - Late Keyword: https://www.geeksforgeeks.org/dart/dart-late-keyword/

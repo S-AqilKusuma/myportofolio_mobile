@@ -17,7 +17,7 @@ class _SkillFormPageState extends State<SkillFormPage> {
   String _description = "";
   File? _image;
   Uri? _imageSource;
-  ImagePickerWidget? _picker;
+  late ImagePickerWidget? _picker = getPicker();
 
   ImagePickerWidget getPicker() => ImagePickerWidget(
     key: UniqueKey(),
@@ -35,8 +35,6 @@ class _SkillFormPageState extends State<SkillFormPage> {
   
   @override
   Widget build(BuildContext context) {
-    _picker = getPicker();
-
     return Scaffold(
       appBar: AppBar(
         title: const Center(
