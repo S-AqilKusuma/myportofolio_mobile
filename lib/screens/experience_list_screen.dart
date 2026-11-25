@@ -74,9 +74,6 @@ class _ExperienceListScreenState extends State<ExperienceListScreen> {
           }
 
           final experiences = snapshot.data ?? const <Experience>[];
-          // TODO: When projects is empty, return a centered 'No projects found.' message
-          // wrapped in RefreshIndicator + SingleChildScrollView(physics: AlwaysScrollableScrollPhysics())
-          // so pull-to-refresh still works on an empty list.
           if (experiences.isEmpty) {
             return RefreshIndicator(
               onRefresh: _reload,
@@ -89,10 +86,6 @@ class _ExperienceListScreenState extends State<ExperienceListScreen> {
             );
           }
 
-          // TODO: Return a RefreshIndicator (onRefresh: _reload) wrapping a
-          // ListView.builder that renders a Card/ListTile for each project
-          // (showing project.title, project.techStack, and project.description)
-          // and navigates to ProjectDetailScreen(project: project) on tap.
           return RefreshIndicator(
               onRefresh: _reload,
               child: ListView.builder(
