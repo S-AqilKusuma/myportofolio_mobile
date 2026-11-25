@@ -68,7 +68,7 @@ class ApiClient {
 
   Future<void> logout({required String token}) async {
     final response = await _client.post(
-      _uri('/api/v1/auth/token/'),
+      _uri('/api/v1/auth/logout/'),
       headers: {'Authorization': 'Token $token'},
     );
     _ensureSuccess(response);
