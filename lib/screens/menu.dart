@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
+import 'package:myportofolio_mobile/screens/experience_list_screen.dart';
 import 'package:myportofolio_mobile/screens/skill_form.dart';
 import 'package:myportofolio_mobile/widgets/experience_card.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
@@ -14,7 +15,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ItemHomepage> items = [
-      ItemHomepage("Lihat Pengalaman", Icons.folder, Colors.grey, null),
+      ItemHomepage("Lihat Pengalaman", Icons.folder, Colors.grey, (context) => ExperienceListScreen()),
       ItemHomepage("Tambah Pengalaman", Icons.add_circle, Colors.green, (context) => ExperienceFormPage()),
       ItemHomepage("Edit Pengalaman", Icons.edit, Theme.of(context).colorScheme.secondary, null),
       ItemHomepage("Hapus Pengalaman", Icons.delete_forever, Colors.red, null),
