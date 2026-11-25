@@ -1,5 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
+import 'package:myportofolio_mobile/widgets/auth_guard.dart';
+import 'package:provider/provider.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -14,23 +17,28 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         // Aksi ketika kartu ditekan oleh pengguna.
-        onTap: () {
+        onTap: () async {
+          if (item.name == "Logout") {
+            await context.read<AuthState>().logout();
+          } else if (item.requireLogin && !(await ensureLoggedIn(context)) || !context.mounted) {
+            return;
+          } else if (item.page != null) {
+            // Navigate ke halaman yang sesuai
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: item.page!
+              ),
+            );
+          }
+
+          if (!context.mounted) return;
           // Menampilkan SnackBar dengan pesan interaktif.
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
+              SnackBar(content: Text(item.snackBarMessage))
             );
-
-            // Navigate ke halaman yang sesuai
-            if (item.page != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: item.page!
-                ),
-              );
-            }
         },
         child: Container(
           padding: const EdgeInsets.all(8),

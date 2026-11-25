@@ -2,8 +2,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/experience_list_screen.dart';
 import 'package:myportofolio_mobile/screens/skill_form.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
 import 'package:myportofolio_mobile/widgets/experience_card.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -14,16 +16,22 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthState>().isLoggedIn;
     final List<ItemHomepage> items = [
       ItemHomepage("Lihat Pengalaman", Icons.folder, Colors.grey, (context) => ExperienceListScreen()),
-      ItemHomepage("Tambah Pengalaman", Icons.add_circle, Colors.green, (context) => ExperienceFormPage()),
+      ItemHomepage(
+        "Tambah Pengalaman",Icons.add_circle, Colors.green,
+        (context) => ExperienceFormPage(), requireLogin: true
+      ),
       ItemHomepage("Edit Pengalaman", Icons.edit, Theme.of(context).colorScheme.secondary, null),
       ItemHomepage("Hapus Pengalaman", Icons.delete_forever, Colors.red, null),
       ItemHomepage("Lihat Skill", Icons.folder, Colors.grey, null),
       ItemHomepage("Tambah Skill", Icons.add_circle, Colors.green, (context) => SkillFormPage()),
       ItemHomepage("Edit Skill", Icons.edit, Theme.of(context).colorScheme.secondary, null),
       ItemHomepage("Hapus Skill", Icons.delete_forever, Colors.red, null),
-      ItemHomepage("Logout", Icons.logout, Colors.black, null),
+      if (isLoggedIn) ItemHomepage(
+        "Logout", Icons.logout, Colors.black,
+        null, snackBarMessage: "Kamu berhasil Logout!", requireLogin: true),
     ];
     // Scaffold menyediakan struktur visual dasar halaman (AppBar, Body, SnackBar).
     return Scaffold(
@@ -129,6 +137,16 @@ class ItemHomepage {
   final IconData icon;
   final Color color;
   final WidgetBuilder? page;
+  final String snackBarMessage;
+  final bool requireLogin;
 
-  ItemHomepage(this.name, this.icon, this.color, this.page);
+  ItemHomepage(
+    this.name,
+    this.icon,
+    this.color,
+    this.page, {
+    String? snackBarMessage,
+    bool? requireLogin
+  }) : snackBarMessage = snackBarMessage ?? "Kamu telah menekan tombol $name!",
+  requireLogin = requireLogin ?? false;
 }

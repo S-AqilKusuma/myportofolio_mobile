@@ -1,5 +1,10 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:myportofolio_mobile/models/experience.dart';
+import 'package:myportofolio_mobile/services/api_client.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
+import 'package:myportofolio_mobile/widgets/auth_guard.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:provider/provider.dart';
 
 class ExperienceFormPage extends StatefulWidget {
   const ExperienceFormPage({super.key});
@@ -14,7 +19,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   String _title = "";
   String _description = "";
   String _category = "Full-Time"; // default
-  String _thumbnail = "";
+  Uri? _thumbnail;
   DateTime? _endedAt;
 
   final List<String> _categories = [
@@ -134,8 +139,18 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _thumbnail = value!;
+                      _thumbnail = Uri.parse(value!);
                     });
+                  },
+                  validator: (String? value) {
+                    if (
+                      value != null &&
+                      value.trim().isNotEmpty &&
+                      Uri.parse(value).host.isEmpty
+                    ) {
+                      return "URL thumbnail tidak valid!";
+                    }
+                    return null;
                   },
                 ),
               ),
@@ -167,38 +182,67 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                       backgroundColor:
                           WidgetStateProperty.all(Colors.indigo),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Pengalaman berhasil ditambahkan!'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Nama: $_title'),
-                                    Text('Deskripsi: $_description'),
-                                    Text('Kategori: $_category'),
-                                    Text('Thumbnail: $_thumbnail'),
-                                    Text('Waktu Selesai: $_endedAt'),
-                                  ],
-                                ),
+                    onPressed: () async {
+                      if (
+                        await ensureLoggedIn(context) &&
+                        context.mounted &&
+                        _formKey.currentState!.validate()
+                      ) {
+                        try {
+                          final experience = await context.read<ApiClient>()
+                            .createExperience(
+                              Experience(
+                                title: _title,
+                                description: _description,
+                                category: _category.toLowerCase(),
+                                thumbnail: _thumbnail?.toString(),
+                                endedAt: _endedAt
                               ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                    _endedAt = null;
-                                  },
-                                ),
-                              ],
+                              token: context.read<AuthState>().token!
                             );
-                          },
-                        );
+                          
+                          if (!context.mounted) return;
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Pengalaman berhasil ditambahkan!'),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Nama: ${experience.title}'),
+                                      Text('Deskripsi: ${experience.description}'),
+                                      Text('Kategori: ${experience.category.toUpperCase()}'),
+                                      Text('Thumbnail: ${experience.thumbnail}'),
+                                      Text('Waktu Selesai: ${experience.endedAt}'),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      _formKey.currentState!.reset();
+                                      _endedAt = null;
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } on ApiException catch (e) {
+                          if (e.statusCode == 401) {
+                            
+                          }
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(
+                              SnackBar(content: Text(e.toString()))
+                            );
+                        }
                       }
                     },
                     child: const Text(
