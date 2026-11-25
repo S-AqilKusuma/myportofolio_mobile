@@ -62,7 +62,8 @@ class ApiClient {
       body: {'username': username, 'password': password}
     );
     _ensureSuccess(response);
-    throw jsonDecode(response.body) as String;
+    final body = jsonDecode(response.body) as dynamic;
+    return body.values.first;
   }
 
   Future<void> logout({required String token}) async {
